@@ -66,6 +66,38 @@ We will update the hello controller so that it's index method returns a JSON doc
         }
     }
 
+## Demo Domain Class
+
+The major point of spring-boot and hibernate based apps is the ability to construct database centric processing applications. lets create a domain class to demo these capabilities
+and prove that our datasource config is working as expected.
+
+    grails create-domain-class folioResource
+
+This will generate grails-app/domain/folio/demo/module/FolioResource.groovy and src/test/groovy/folio/demo/module/FolioResourceSpec.groovy. We will fill out FolioResource as follows
+
+    package folio.demo.module
+    
+    class FolioResource {
+    
+      String tenantId
+      String title
+      String description
+    
+      static constraints = {
+      }
+    
+      static mapping = {
+        table 'fdm_resource'
+        id column:'fdmr_id'
+        tenantId column:'fdmr_tenant_id'
+        title column:'fdmr_title'
+        description column:'fdmr_description'
+      }
+    }
+
+We're overriding the default generated table and column names. This is a convention we might want to consider adopting as a community to make sure that modules
+don't clash when operating in the default schema.
+
 ## Integrate with global config
 
 We need to prove that we can interact with some shared global configuraiton. Update grails-app/init/folio/demo/module/BootStrap.groovy to print a message at app startup time
@@ -174,6 +206,28 @@ Sample deployment/module descriptors are provided which assume a foler layout as
       }
     }
 
+## About databases
+
+the raml_module_builder from FOLIO core makes some assumptions that don't fit well with some hibernate idioms. In particualr concrete assumptions about the implementation
+of multi-tenant render deployment decisions part of the dev process, and push towards postgres specific schema-per-tenant setup. This doesn't sit well with hibernates
+database agnostic approach to deployment. For this app, we're taking a concious decision to divert from the approach establishing itself in FOLIO core, and are leaving schemas aside,
+at least for the purposes of partitioning tenant data.
+
+In order to run this sample app, the following postgres config is expected (These need to be run as the postgres user). The SUPERUSER role parts are included here
+because they are needed if you wish to run mod_user from the same configuration (You might want to). Currently, this demo does not require superuser privis, but this
+area of FOLIO feels less well defined currently.
+
+CREATE DATABASE folio;
+CREATE USER folio WITH PASSWORD 'folio' SUPERUSER CREATEDB INHERIT LOGIN;
+GRANT ALL PRIVILEGES ON DATABASE folio to folio;
+
+
+### About multi-tenant
+
+There are a number of hibernate addons that can use database level schemas to partition multi tenant apps. We don't currently include that config in this demo. May add later,
+but may not. Either way - it seems VERY sensible to include a tenant discriminator in any tables that need to be partitioned. This approach sets up a tool by which production
+engineers can decide for each install what the most appopriate partitioning method is.
+
 ## Datasource configuration
 
 Datasource configration in FOLIO is currently not as idiomatic as grails, although local conventions are starting to appear around the use of embedded
@@ -190,16 +244,14 @@ It seems that there is a genine and sound desire to be able to centralise some F
 Grails already provides a clean mechanism for per-environment configuration. Therefore, it seems appropriate to suggest an idiomatic approach to the configuration challenge
 for spring-boot based FOLIO modules
 
-### Proposal: Shared config for spring boot based FOLIO applications
+    environments:
+        production:
+            dataSource:
+                dbCreate: update
+                username: folio
+                password: folio
+                driverClassName: org.postgresql.Driver
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                url: jdbc:postgresql://localhost:5432/folio
 
-As stated in the spring boot docs,--spring.config.location can be used to specify files and/or directories which will be added to the list of paths searched.
-
-The example from the spring boot docs is:
-
-java -jar myproject.jar --spring.config.location=classpath:/default.properties,classpath:/override.properties
-
-We propose the follwing as a spring-boot idiomatic approach to config
-
- --spring.config.location=file:///some/path/folio_globals.yaml
-
-
+These values should match whatever you have used in your ../../postgres-conf.json
