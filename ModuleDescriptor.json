@@ -1,0 +1,19 @@
+{
+  "id": "grails-helloworld-module",
+  "name": "grails-hello-world",
+  "provides": [
+    {
+      "id": "grails-hello-world",
+      "version": "1.0",
+      "handlers" : [
+        {
+          "methods": [ "GET" ],
+          "pathPattern": "/hello"
+        }
+      ]
+    }
+  ],
+  "launchDescriptor": {
+    "exec": "java -jar -Dserver.port=%p ../folio-grails-module-demo/folio-demo-module/build/libs/folio-grails-module-0.1.war"
+  }
+}
