@@ -226,6 +226,20 @@ Sample deployment/module descriptors are provided which assume a foler layout as
               "pathPattern": "/hello"
             }
           ]
+        },
+        {
+          "id": "_tenant",
+          "version": "1.0",
+          "interfaceType" : "system",
+          "handlers": [
+            {
+              "methods": ["POST"],
+              "pathPattern": "/_/tenant"
+            }, {
+              "methods": ["DELETE"],
+              "pathPattern": "/_/tenant"
+            }
+          ]
         }
       ]
     }
