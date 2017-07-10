@@ -291,4 +291,37 @@ Where your.pg.host may be localhost or wherever you run postgres. The folio pass
     
     folio=# \q
     
-    
+# FOLIO Proper
+
+from your folio directory, cd into okapi and start up a new okapi. You might find this best done in a separate shell window for ease of debug
+
+    cd okapi
+    java -Dloglevel=DEBUG -jar okapi-core/target/okapi-core-fat.jar dev
+
+This will launch a transient okapi (No persistent storage of tenants and modules). Lets verify that by starting a new shell, and running
+
+    curl -i -w '\n' -X GET http://localhost:9130/_/proxy/modules
+
+and 
+
+    curl -i -w '\n' -X GET http://localhost:9130/_/proxy/tenants
+
+
+The following commands (Ripped off from http://dev.folio.org/curriculum/02_initialize_okapi_from_the_command_line). For brevity, this project provides a
+json config file for the test tenant in testlib-tenant.json ::
+
+    curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @testlib-tenant.json http://localhost:9130/_/proxy/tenants
+
+Lets install the new grails app module descriptor
+
+    curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @ModuleDescriptor.json http://localhost:9130/_/proxy/modules
+
+And install the deployment descriptor for our new module
+
+    curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @DeploymentDescriptor.json http://localhost:9130/_/discovery/modules
+
+Once this has completed, the app should have started using the global datasource config in folio_globals.yaml. In the okapi console, you should see a message like
+
+    Reporting config from folio_globals.yaml: Test Global Configuration Worked
+    Grails application running at http://localhost:8080 in environment: production
+

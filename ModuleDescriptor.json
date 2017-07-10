@@ -12,8 +12,5 @@
         }
       ]
     }
-  ],
-  "launchDescriptor": {
-    "exec": "java -jar -Dserver.port=%p ../folio-grails-module-demo/folio-demo-module/build/libs/folio-grails-module-0.1.war"
-  }
+  ]
 }
