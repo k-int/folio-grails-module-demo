@@ -259,4 +259,36 @@ for spring-boot based FOLIO modules
                 dialect: org.hibernate.dialect.PostgreSQLDialect
                 url: jdbc:postgresql://localhost:5432/folio
 
-These values should match whatever you have used in your ../../postgres-conf.json
+These values should match whatever you have used in your ../../postgres-conf.json. Re running
+
+
+    java -jar ./build/libs/folio-demo-module-0.1.war --spring.config.location=file:../../folio_globals.yaml
+
+With this config should cause an fgm_resource table to appear in the default schema of your postgres folio user. Check this out with
+
+    psql -h your.pg.host -U folio
+
+Where your.pg.host may be localhost or wherever you run postgres. The folio password in the default setup is folio. \dt and \d fdm_resource should respond below
+
+    folio=# \dt
+               List of relations
+     Schema |     Name     | Type  | Owner 
+    --------+--------------+-------+-------
+     public | fdm_resource | table | folio
+    (1 row)
+    
+    folio=# \d fdm_resource;
+                  Table "public.fdm_resource"
+          Column      |          Type          | Modifiers 
+    ------------------+------------------------+-----------
+     fdmr_id          | bigint                 | not null
+     version          | bigint                 | not null
+     fdmr_description | character varying(255) | not null
+     fdmr_tenant_id   | character varying(255) | not null
+     fdmr_title       | character varying(255) | not null
+    Indexes:
+        "fdm_resource_pkey" PRIMARY KEY, btree (fdmr_id)
+    
+    folio=# \q
+    
+    
