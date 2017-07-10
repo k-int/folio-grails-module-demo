@@ -4,12 +4,13 @@ package folio.demo.module
 import grails.rest.*
 import grails.converters.*
 
-class _tenantController {
+class OkapiController {
 	static responseFormats = ['json', 'xml']
 	
   def index() { 
-    println("_tenantController::index ${params}");
-    def result = [:]
-    render result as JSON
+  }
+
+  def tenant() {
+    println("OkapiController::tenant ${params}");
   }
 }

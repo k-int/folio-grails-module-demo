@@ -6,8 +6,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
-@TestFor(_tenantController)
-class _tenantControllerSpec extends Specification {
+@TestFor(OkapiController)
+class OkapiControllerSpec extends Specification {
 
     def setup() {
     }

@@ -66,6 +66,36 @@ We will update the hello controller so that it's index method returns a JSON doc
         }
     }
 
+## OKAPI core support - tenant module
+
+Create a controller which will support the okapi core interfaces (underscore tenant mapping)
+
+    grails create-controller okapi
+
+Implement a tenant action
+
+    package folio.demo.module
+
+
+    import grails.rest.*
+    import grails.converters.*
+
+    class OkapiController {
+      static responseFormats = ['json', 'xml']
+
+      def index() { 
+      }
+    
+      def tenant() {
+        println("OkapiController::tenant ${params}");
+      } 
+    }
+
+And modify grails-app/controllers/folio/demo/module/UrlMappings.groovy to map the _ path to our okapi controller
+
+        "/_/tenant"(controller: 'okapi', action:'tenant')
+
+
 ## Demo Domain Class
 
 The major point of spring-boot and hibernate based apps is the ability to construct database centric processing applications. lets create a domain class to demo these capabilities
