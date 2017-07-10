@@ -11,6 +11,19 @@
           "pathPattern": "/hello"
         }
       ]
+    },
+    {
+      "id": "_tenant",
+      "version": "1.0.0",
+      "interfaceType" : "system",
+      "routingEntries" : [
+        {
+          "methods" : [ "POST", "DELETE" ],
+          "pathPattern" : "/_/tenant",
+          "level" : "10",
+          "type" : "system"
+        }
+      ]
     }
   ]
 }

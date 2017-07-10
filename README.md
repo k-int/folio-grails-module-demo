@@ -327,3 +327,8 @@ Once this has completed, the app should have started using the global datasource
     Reporting config from folio_globals.yaml: Test Global Configuration Worked
     Grails application running at http://localhost:9131 in environment: production
 
+Activate the module for the tenant
+
+    curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @okapi-enable-auth.json http://localhost:9130/_/proxy/tenants/testlib/modules
+
+
