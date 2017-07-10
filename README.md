@@ -267,9 +267,9 @@ In order to run this sample app, the following postgres config is expected (Thes
 because they are needed if you wish to run mod_user from the same configuration (You might want to). Currently, this demo does not require superuser privis, but this
 area of FOLIO feels less well defined currently.
 
-CREATE DATABASE folio;
-CREATE USER folio WITH PASSWORD 'folio' SUPERUSER CREATEDB INHERIT LOGIN;
-GRANT ALL PRIVILEGES ON DATABASE folio to folio;
+    CREATE DATABASE folio;
+    CREATE USER folio WITH PASSWORD 'folio' SUPERUSER CREATEDB INHERIT LOGIN;
+    GRANT ALL PRIVILEGES ON DATABASE folio to folio;
 
 
 ### About multi-tenant
