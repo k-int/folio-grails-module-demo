@@ -323,5 +323,5 @@ And install the deployment descriptor for our new module
 Once this has completed, the app should have started using the global datasource config in folio_globals.yaml. In the okapi console, you should see a message like
 
     Reporting config from folio_globals.yaml: Test Global Configuration Worked
-    Grails application running at http://localhost:8080 in environment: production
+    Grails application running at http://localhost:9131 in environment: production
 
