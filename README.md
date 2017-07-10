@@ -299,6 +299,10 @@ It seems that there is a genuine and sound desire to be able to centralise some 
 Grails already provides a clean mechanism for per-environment configuration. Therefore, it seems appropriate to suggest an idiomatic approach to the configuration challenge
 for spring-boot based FOLIO modules
 
+Example of ../../folio_globals.yaml config with (Per env) DB settings. Because we deploy the prod war, thats all that is included.
+
+    testsection:
+      message: Test Global Configuration Worked
     environments:
         production:
             dataSource:
