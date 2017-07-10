@@ -230,6 +230,11 @@ engineers can decide for each install what the most appopriate partitioning meth
 
 ## Datasource configuration
 
+In order to connect to folio, we will need to add this dependency to build.gradle (You can add it under the h2 dependency, which can be left in)
+
+    runtime 'postgresql:postgresql:9.1-901-1.jdbc4'
+
+
 Datasource configration in FOLIO is currently not as idiomatic as grails, although local conventions are starting to appear around the use of embedded
 postgres and an environment variable. At the time of writing, mod_users (With this behaviour most likely inherited from raml_module_builer) accepts a db_connection
 environment variable
