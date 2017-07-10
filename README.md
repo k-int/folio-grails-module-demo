@@ -62,7 +62,7 @@ We will update the hello controller so that it's index method returns a JSON doc
         static responseFormats = ['json', 'xml']
         def index() { 
            def result=[message:'hello world'];
-           return result;
+           render result as JSON;
         }
     }
 
