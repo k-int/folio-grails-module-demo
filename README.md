@@ -42,6 +42,14 @@ Next we set up a hello controller
 This should create 2 new files (grails uses some conventions which convert a hypenated app name into packages. You can override this behavior by explicitly specifying
 the package in create-controller): grails-app/controllers/folio/demo/module/HelloController.groovy and src/test/groovy/folio/demo/module/HelloControllerSpec.groovy
 
+Better yet, to set the default package for all created resources using the grails cli, update grails-app/conf/application.yml and set the default package:
+```yml
+grails:
+    codegen:
+        defaultPackage: my.custom.package
+...
+```
+
 We will update the hello controller so that it's index method returns a JSON document - edit grails-app/controllers/folio/demo/module/HelloController.groovy as follows:
 
     package folio.demo.module
