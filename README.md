@@ -295,7 +295,7 @@ This is raml_module_builder special sauce, and whilst it may become a defacto st
 Grails 3 apps support the SPRING_APPLICATION_JSON environment variable and the spring.application.json system property as an additional way to pass a JSON configuration
 object to the app. The underlying spring boot docs can be found here: https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html.
 
-It seems that there is a genine and sound desire to be able to centralise some FOLIO configuration - so that dev, test and production environments can have clean shared config.
+It seems that there is a genuine and sound desire to be able to centralise some FOLIO configuration - so that dev, test and production environments can have clean shared config.
 Grails already provides a clean mechanism for per-environment configuration. Therefore, it seems appropriate to suggest an idiomatic approach to the configuration challenge
 for spring-boot based FOLIO modules
 
