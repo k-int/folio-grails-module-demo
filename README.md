@@ -176,13 +176,6 @@ behave differently in different environments - following the spring-boot idioms 
 Sample deployment/module descriptors are provided which assume a foler layout as set out at the head of this document, and expose a single hello service.
 
 
-#### Deployment Descriptor
-
-    {
-      "srvcId": "grails-helloworld-module",
-      "nodeId": "localhost"
-    }
-
 
 #### Module Descriptor
 
@@ -200,11 +193,20 @@ Sample deployment/module descriptors are provided which assume a foler layout as
             }
           ]
         }
-      ],
-      "launchDescriptor": {
-        "exec": "java -jar -Dserver.port=%p ../folio-grails-module-demo/folio-demo-module/build/libs/folio-grails-module-0.1.war"
-      }
+      ]
     }
+
+#### Deployment Descriptor
+
+{
+  "srvcId": "grails-helloworld-module",
+  "nodeId": "localhost",
+  "descriptor": {
+    "exec": "java -jar ../folio-grails-module-demo/folio-demo-module/build/libs/folio-demo-module-0.1.war --server.port=%p --spring.config.location=file:../folio_globals.yaml"
+  }
+}
+
+
 
 ## About databases
 
