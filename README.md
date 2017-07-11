@@ -12,7 +12,8 @@ up with a structure like the one below. Don't worry if you don't see all these f
         folio                                          -- A folder for folio work
             folio_globals.yaml                         -- A config file where we can share global config for spring-boot based apps.
                                                        -- we decided to go for something more general than just postgres-config.yaml .
-            folio-grails-module-demo                   -- the grails based folio module we are building (And is checked into this git repo)
+            folio-grails-module-demo                   -- Folder containing new module and descriptors
+                folio-demo-module                      -- the grails app itself
             folio-sample-modules                       -- The defacto folio demo module
             mod-users                                  -- the users module
             okapi                                      -- okapi core
@@ -47,6 +48,15 @@ for this project, but they are pretty common to most FOLIO environments, so are 
         "user":"foilio"
     }
     END
+    mkdir folio-grails-module-demo
+    cd folio-grails-module-demo
+    wget https://github.com/k-int/folio-grails-module-demo/raw/master/DeploymentDescriptor.json
+    wget https://github.com/k-int/folio-grails-module-demo/raw/master/ModuleDescriptor.json
+    wget https://github.com/k-int/folio-grails-module-demo/raw/master/testlib-tenant.json
+    wget https://github.com/k-int/folio-grails-module-demo/raw/master/testlib-mod-activation.json
+    wget https://github.com/k-int/folio-grails-module-demo/raw/master/setup.sh
+    echo done
+    
 
 # Prerequisites
 
@@ -419,6 +429,6 @@ Once this has completed, the app should have started using the global datasource
 
 Activate the module for the tenant
 
-    curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @okapi-enable-auth.json http://localhost:9130/_/proxy/tenants/testlib/modules
+    curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @testlib-mod-activation.json http://localhost:9130/_/proxy/tenants/testlib/modules
 
 A shortcut [setup.sh](https://github.com/k-int/folio-grails-module-demo/blob/master/setup.sh) script is provided to do these steps with less typing.
