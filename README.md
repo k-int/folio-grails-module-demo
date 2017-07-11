@@ -299,7 +299,7 @@ Sample deployment/module descriptors are provided which assume a foler layout as
 
 #### Deployment Descriptor
 
-Things to note: --server.port= is the sring boot way to specify a port number. --sprint-config-location allows us to specify a config file which will override anything
+Things to note: --server.port= is the spring boot way to specify a port number. --spring-config-location allows us to specify a config file which will override anything
 set in conf/application.yml. We use this to set the FOLIO-wide postgres connection we wish to use.
 
 {
