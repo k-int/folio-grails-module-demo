@@ -1,4 +1,7 @@
 
+# Purpose of this repository
+
+This repository is a demo of how to get spring-boot (grails in this case) apps working as a [FOLIO](https://github.com/folio-org) module. It's the first in a series that set out how [K-int](http://www.k-int.com) intend to build modules for the FOLIO ecosystem as contributors. It should be considered separate to FOLIO core, and the work we do as a part of the core team. This project makes some different choices, and has different constraints to, the core FOLIO effort. This is the first in a series that will explain how we expect domain modelling and other spring-boot idioms like security to operate in the FOLIO environment.
 
 # Directory structure
 
