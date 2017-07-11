@@ -3,6 +3,7 @@
 
 This repository is a demo of how to get a spring-boot app (grails 3 in this case) working as a [FOLIO](https://github.com/folio-org) module. It's the first in a series that set out how [K-int](http://www.k-int.com) intend to build modules for the FOLIO ecosystem (as external contributors). It should be considered separate to our work as a part of the core team. This project makes some different choices, and has different constraints to, the core FOLIO effort. This is the first in a series that will explain how we expect domain modelling and other spring-boot idioms like security to operate in the FOLIO environment. Our hope is to make it extremely easy to rapidly develop FOLIO modules using the high productivity frameworks that web developers expect to leverage.
 
+There is a walkthrough of this readme [here](https://youtu.be/wf84CLgnUEA)
 # Directory structure
 
 We're assuming you're working inside a "folio" workspace, and that you will create a new module in that folder at the same level as the checked out okapi. We're going to end
