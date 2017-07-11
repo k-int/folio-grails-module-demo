@@ -440,3 +440,8 @@ Activate the module for the tenant
     curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @testlib-mod-activation.json http://localhost:9130/_/proxy/tenants/testlib/modules
 
 A shortcut [setup.sh](https://github.com/k-int/folio-grails-module-demo/blob/master/setup.sh) script is provided to do these steps with less typing.
+
+Finally - call the spring-boot service via okapi pretending tobe testlib tenant:
+
+    curl -i -w '\n' -X GET -H 'X-Okapi-Tenant: testlib' http://localhost:9130/hello
+
