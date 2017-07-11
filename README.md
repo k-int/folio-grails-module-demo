@@ -7,12 +7,42 @@ up with a structure like the one below. Don't worry if you don't see all these f
 
     some/path                                          -- Maybe your home dir or dev area
         folio                                          -- A folder for folio work
-            folio_globals.yaml                         -- A config file where we can share global config for spring-boot based apps
+            folio_globals.yaml                         -- A config file where we can share global config for spring-boot based apps.
+                                                       -- we decided to go for something more general than just postgres-config.yaml .
             folio-grails-module-demo                   -- the grails based folio module we are building (And is checked into this git repo)
             folio-sample-modules                       -- The defacto folio demo module
             mod-users                                  -- the users module
             okapi                                      -- okapi core
             raml-module-builder                        -- the raml module builder, in case you want to play
+
+Assuming you're starting at some/path the following will get you everything you might need. folio-sample-modules, mod-users and raml-module-builder aren't needed
+for this project, but they are pretty common to most FOLIO environments, so are included for completeness.
+
+    mkdir folio
+    cd folio
+    git clone https://github.com/folio-org/okapi.git
+    git clone https://github.com/folio-org/folio-sample-modules.git
+    git clone https://github.com/folio-org/mod-users.git
+    git clone https://github.com/folio-org/raml-module-builder.git
+    git clone https://github.com/k-int/folio-grails-module-demo.git
+    cat > folio_globals.yaml <<END
+    testsection:
+      message: Test Global Configuration Worked
+    # environments:
+    #     production:
+    #         dataSource:
+    #             dbCreate: update
+    #             username: folio
+    #             password: folio
+    #             driverClassName: org.postgresql.Driver
+    #             dialect: org.hibernate.dialect.PostgreSQLDialect
+    #             url: jdbc:postgresql://localhost:5432/folio
+    END
+    cat > postgres-config.json <<END
+    {
+        "user":"foilio"
+    }
+    END
 
 # Prerequisites
 
@@ -26,7 +56,7 @@ Folio. This demo was created using okapi core with commit e1b1df335e5fff65fb0362
 
 # Steps to reproduce
 
-## ZFR
+## ZFR (Zero Functionality Release)
 
 We create the skeletal app with
 
@@ -50,7 +80,7 @@ grails:
 ...
 ```
 
-We will update the hello controller so that it's index method returns a JSON document - edit grails-app/controllers/folio/demo/module/HelloController.groovy as follows:
+We will update the hello controller so that it's index method returns a JSON document - edit [grails-app/controllers/folio/demo/module/HelloController.groovy](https://github.com/k-int/folio-grails-module-demo/blob/master/folio-demo-module/grails-app/controllers/folio/demo/module/HelloController.groovy) as follows:
 
     package folio.demo.module
 
@@ -72,7 +102,7 @@ Create a controller which will support the okapi core interfaces (underscore ten
 
     grails create-controller okapi
 
-Implement a tenant action
+Implement a tenant action - [OkapiController.groovy](https://github.com/k-int/folio-grails-module-demo/blob/master/folio-demo-module/grails-app/controllers/folio/demo/module/OkapiController.groovy)
 
     package folio.demo.module
 
@@ -95,7 +125,7 @@ Implement a tenant action
 
     }
 
-And modify grails-app/controllers/folio/demo/module/UrlMappings.groovy to map the _ path to our okapi controller
+And modify [grails-app/controllers/folio/demo/module/UrlMappings.groovy](https://github.com/k-int/folio-grails-module-demo/blob/master/folio-demo-module/grails-app/controllers/folio/demo/module/UrlMappings.groovy) to map the _ path to our okapi controller
 
         "/_/tenant"(controller: 'okapi', action:'tenant')
 
@@ -107,7 +137,7 @@ and prove that our datasource config is working as expected.
 
     grails create-domain-class folioResource
 
-This will generate grails-app/domain/folio/demo/module/FolioResource.groovy and src/test/groovy/folio/demo/module/FolioResourceSpec.groovy. We will fill out FolioResource as follows
+This will generate [grails-app/domain/folio/demo/module/FolioResource.groovy and src/test/groovy/folio/demo/module/FolioResourceSpec.groovy](https://github.com/k-int/folio-grails-module-demo/blob/master/folio-demo-module/grails-app/domain/folio/demo/module/FolioResource.groovy). We will fill out FolioResource as follows
 
     package folio.demo.module
     
@@ -129,12 +159,12 @@ This will generate grails-app/domain/folio/demo/module/FolioResource.groovy and 
       }
     }
 
-We're overriding the default generated table and column names. This is a convention we might want to consider adopting as a community to make sure that modules
+We're overriding the default generated table and column names. This is a convention we (people developing spring-boot modules for folio) might want to consider adopting as a community to make sure that modules
 don't clash when operating in the default schema.
 
 ## Integrate with global config
 
-We need to prove that we can interact with some shared global configuraiton. Update grails-app/init/folio/demo/module/BootStrap.groovy to print a message at app startup time
+We need to prove that we can interact with some shared global configuraiton. Update [grails-app/init/folio/demo/module/BootStrap.groovy](https://github.com/k-int/folio-grails-module-demo/blob/master/folio-demo-module/grails-app/init/folio/demo/module/BootStrap.groovy) to print a message at app startup time
 which reports a value from our global config.
 
     package folio.demo.module
@@ -151,13 +181,13 @@ which reports a value from our global config.
       }
     }
 
-And set up the configuration file we are going to use - ../../folio_globals.yaml
+And set up the configuration file we are going to use - ../../folio_globals.yaml. If you followed the instructions in step one this is done already.
 
     testsection:
         message: Test Global Configuration Worked
 
 It would be nice to prove to ourselves that the global configuration is really overriding the local config, and not simply being used instead of it. Update
-grails-app/conf/application.yml and add the following three lines to the top of the file (Which will then contiue with the grails: section as below).
+[grails-app/conf/application.yml](https://github.com/k-int/folio-grails-module-demo/blob/master/folio-demo-module/grails-app/conf/application.yml) and add the following three lines to the top of the file (Which will then contiue with the grails: section as below).
 
     ---
     testsection:
@@ -187,7 +217,7 @@ as a microservice. The .war can actually be made into an init-script using embed
 You should see output like
 
     ibbo@angstrom:~/dev/folio/folio-grails-module-demo/folio-demo-module$ java -jar ./build/libs/folio-demo-module-0.1.war --spring.config.location=file:../../folio_globals.yaml
-    Reporting config from folio_globals.yaml: Test Global Configuration Worked
+    Reporting config from folio_globals.yaml: *Test Global Configuration Worked*
     Grails application running at http://localhost:8080 in environment: production
 
 Use ctrl-c to exit the app, and relaunch using
@@ -197,7 +227,7 @@ Use ctrl-c to exit the app, and relaunch using
 You should see output like
 
     ibbo@angstrom:~/dev/folio/folio-grails-module-demo/folio-demo-module$ java -jar ./build/libs/folio-demo-module-0.1.war
-    Reporting config from folio_globals.yaml: Test Local Configuration Worked
+    Reporting config from folio_globals.yaml: *Test Local Configuration Worked*
     Grails application running at http://localhost:8080 in environment: production
 
 OK - we've got a way to share global config that overrides app defaults. spring-boot idioms are different to FOLIO ones, so this mechanism provides us a way to
@@ -207,7 +237,7 @@ behave differently in different environments - following the spring-boot idioms 
 
 ### FOLIO Descriptors
 
-Sample deployment/module descriptors are provided which assume a foler layout as set out at the head of this document, and expose a single hello service.
+Sample deployment/module descriptors are provided which assume a foler layout as set out at the head of this document, and expose a single hello service along side the tenant support endpoint.
 
 
 
@@ -246,6 +276,9 @@ Sample deployment/module descriptors are provided which assume a foler layout as
 
 #### Deployment Descriptor
 
+Things to note: --server.port= is the sring boot way to specify a port number. --sprint-config-location allows us to specify a config file which will override anything
+set in conf/application.yml. We use this to set the FOLIO-wide postgres connection we wish to use.
+
 {
   "srvcId": "grails-helloworld-module",
   "nodeId": "localhost",
@@ -263,7 +296,7 @@ of multi-tenant render deployment decisions part of the dev process, and push to
 database agnostic approach to deployment. For this app, we're taking a concious decision to divert from the approach establishing itself in FOLIO core, and are leaving schemas aside,
 at least for the purposes of partitioning tenant data.
 
-In order to run this sample app, the following postgres config is expected (These need to be run as the postgres user). The SUPERUSER role parts are included here
+In order to run this sample app, the following postgres config is expected (These need to be run as the postgres DBA user). The SUPERUSER role parts are included here
 because they are needed if you wish to run mod_user from the same configuration (You might want to). Currently, this demo does not require superuser privis, but this
 area of FOLIO feels less well defined currently.
 
@@ -383,4 +416,4 @@ Activate the module for the tenant
 
     curl -i -w '\n' -X POST -H 'Content-type: application/json' -d @okapi-enable-auth.json http://localhost:9130/_/proxy/tenants/testlib/modules
 
-
+A shortcut [setup.sh](https://github.com/k-int/folio-grails-module-demo/blob/master/setup.sh) script is provided to do these steps with less typing.
