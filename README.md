@@ -27,7 +27,8 @@ for this project, but they are pretty common to most FOLIO environments, so are 
     git clone https://github.com/folio-org/folio-sample-modules.git
     git clone https://github.com/folio-org/mod-users.git
     git clone https://github.com/folio-org/raml-module-builder.git
-    git clone https://github.com/k-int/folio-grails-module-demo.git
+    # We're going to produce this project in this readme, but it can be checked out here:
+    # git clone https://github.com/k-int/folio-grails-module-demo.git
     cat > folio_globals.yaml <<END
     testsection:
       message: Test Global Configuration Worked
