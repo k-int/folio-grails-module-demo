@@ -302,13 +302,13 @@ Sample deployment/module descriptors are provided which assume a foler layout as
 Things to note: --server.port= is the spring boot way to specify a port number. --spring-config-location allows us to specify a config file which will override anything
 set in conf/application.yml. We use this to set the FOLIO-wide postgres connection we wish to use.
 
-{
-  "srvcId": "grails-helloworld-module",
-  "nodeId": "localhost",
-  "descriptor": {
-    "exec": "java -jar ../folio-grails-module-demo/folio-demo-module/build/libs/folio-demo-module-0.1.war --server.port=%p --spring.config.location=file:../folio_globals.yaml"
-  }
-}
+    {
+      "srvcId": "grails-helloworld-module",
+      "nodeId": "localhost",
+      "descriptor": {
+        "exec": "java -jar ../folio-grails-module-demo/folio-demo-module/build/libs/folio-demo-module-0.1.war --server.port=%p --spring.config.location=file:../folio_globals.yaml"
+      }
+    }
 
 
 
