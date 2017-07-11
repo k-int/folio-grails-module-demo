@@ -314,10 +314,9 @@ set in conf/application.yml. We use this to set the FOLIO-wide postgres connecti
 
 ## About databases
 
-the raml_module_builder from FOLIO core makes some assumptions that don't fit well with some hibernate idioms. In particualr concrete assumptions about the implementation
-of multi-tenant render deployment decisions part of the dev process, and push towards postgres specific schema-per-tenant setup. This doesn't sit well with hibernates
-database agnostic approach to deployment. For this app, we're taking a concious decision to divert from the approach establishing itself in FOLIO core, and are leaving schemas aside,
-at least for the purposes of partitioning tenant data.
+some parts of FOLIO core relies upon assumptions that don't fit well with some hibernate idioms. In particualr concrete assumptions about the physical implementation
+of multi-tenant deployment are implicit in the design (Database dialects, partitioning strategies), and push towards postgres specific schema-per-tenant setup. This doesn't sit cleanly with hibernates
+database agnostic approach to per-environment configuration / db platform agnosticism. For this app, we're taking a concious decision to divert slightly from that approach.
 
 In order to run this sample app, the following postgres config is expected (These need to be run as the postgres DBA user). The SUPERUSER role parts are included here
 because they are needed if you wish to run mod_user from the same configuration (You might want to). Currently, this demo does not require superuser privis, but this
