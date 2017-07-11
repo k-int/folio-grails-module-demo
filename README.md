@@ -22,8 +22,7 @@ up with a structure like the one below. Don't worry if you don't see all these f
             okapi/                       -- okapi core
             raml-module-builder/         -- the raml module builder, in case you want to play
 
-Assuming you're starting at some/path the following commands will get you everything you might need. folio-sample-modules, mod-users and raml-module-builder aren't needed
-for this project, but they are pretty common to most FOLIO environments, so are included for completeness.
+Assuming you're starting at some/path the following commands will get you everything you might need. [folio-sample-modules](https://github.com/folio-org/folio-sample-modules), [mod-users](https://github.com/folio-org/mod-users) and [raml-module-builder](https://github.com/folio-org/raml-module-builder) aren't needed for this project, but they are pretty common to most FOLIO environments, so are included for completeness.
 
     mkdir folio
     cd folio
