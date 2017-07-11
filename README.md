@@ -8,18 +8,21 @@ This repository is a demo of how to get a spring-boot app (grails 3 in this case
 We're assuming you're working inside a "folio" workspace, and that you will create a new module in that folder at the same level as the checked out okapi. We're going to end
 up with a structure like the one below. Don't worry if you don't see all these files/directories at the start - this is where we will end up.
 
-    some/path                                          -- Maybe your home dir or dev area
-        folio                                          -- A folder for folio work
-            folio_globals.yaml                         -- A config file where we can share global config for spring-boot based apps.
-                                                       -- we decided to go for something more general than just postgres-config.yaml .
-            folio-grails-module-demo                   -- Folder containing new module and descriptors
-                folio-demo-module                      -- the grails app itself
-            folio-sample-modules                       -- The defacto folio demo module
-            mod-users                                  -- the users module
-            okapi                                      -- okapi core
-            raml-module-builder                        -- the raml module builder, in case you want to play
+    some/path/                           -- Maybe your home dir or dev area
+        folio/                           -- A folder for folio work
+            posgres-config.json          -- Config file needed by mod-users et al
+            folio_globals.yaml           -- A config file where we can share global 
+                                         -- config for spring-boot based apps.
+                                         -- we decided to go for something more general 
+                                         -- than just postgres-config.yaml .
+            folio-grails-module-demo/    -- Folder containing new module and descriptors
+                folio-demo-module/       -- the grails app itself
+            folio-sample-modules/        -- The defacto folio demo module
+            mod-users/                   -- the users module
+            okapi/                       -- okapi core
+            raml-module-builder/         -- the raml module builder, in case you want to play
 
-Assuming you're starting at some/path the following will get you everything you might need. folio-sample-modules, mod-users and raml-module-builder aren't needed
+Assuming you're starting at some/path the following commands will get you everything you might need. folio-sample-modules, mod-users and raml-module-builder aren't needed
 for this project, but they are pretty common to most FOLIO environments, so are included for completeness.
 
     mkdir folio
@@ -28,8 +31,12 @@ for this project, but they are pretty common to most FOLIO environments, so are 
     git clone https://github.com/folio-org/folio-sample-modules.git
     git clone https://github.com/folio-org/mod-users.git
     git clone https://github.com/folio-org/raml-module-builder.git
-    # We're going to produce this project in this readme, but it can be checked out here:
+
+    # We're going to build the project described in this readme from the ground up, 
+    # but it can be checked out instead from here:
     # git clone https://github.com/k-int/folio-grails-module-demo.git
+
+    # Set up spring-boot global config file
     cat > folio_globals.yaml <<END
     testsection:
       message: Test Global Configuration Worked
@@ -43,11 +50,13 @@ for this project, but they are pretty common to most FOLIO environments, so are 
     #             dialect: org.hibernate.dialect.PostgreSQLDialect
     #             url: jdbc:postgresql://localhost:5432/folio
     END
+    # Initialise postgres config file needed by mod-users
     cat > postgres-config.json <<END
     {
         "user":"foilio"
     }
     END
+    # Set up folder containing descriptors and demo project
     mkdir folio-grails-module-demo
     cd folio-grails-module-demo
     wget https://github.com/k-int/folio-grails-module-demo/raw/master/DeploymentDescriptor.json
@@ -72,15 +81,15 @@ Folio. This demo was created using okapi core with commit e1b1df335e5fff65fb0362
 
 ## ZFR (Zero Functionality Release)
 
-We create the skeletal app with
+From inside some/path/folio/folio-grails-module-demo We create the skeletal app with
 
     grails --profile rest-api create-app folio-demo-module
+    cd folio-demo-module
 
 ## Demo controller (Folio service)
 
 Next we set up a hello controller
 
-    cd folio-demo-module
     grails create-controller hello
 
 This should create 2 new files (grails uses some conventions which convert a hypenated app name into packages. You can override this behavior by explicitly specifying
