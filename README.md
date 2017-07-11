@@ -387,6 +387,7 @@ Where your.pg.host may be localhost or wherever you run postgres. The folio pass
 from your folio directory, cd into okapi and start up a new okapi. You might find this best done in a separate shell window for ease of debug
 
     cd okapi
+    # mvn install if you need to build
     java -Dloglevel=DEBUG -jar okapi-core/target/okapi-core-fat.jar dev
 
 This will launch a transient okapi (No persistent storage of tenants and modules). Lets verify that by starting a new shell, and running
