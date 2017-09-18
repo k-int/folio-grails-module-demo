@@ -14,6 +14,10 @@ grails:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+        multiTenancy:
+            mode: SCHEMA
+            tenantResolverClass: OkapiTenantResolver    # See src/main/groovy
+
 info:
     app:
         name: '@info.app.name@'
