@@ -1,4 +1,4 @@
-ckage folio.demo.module
+package folio.demo.module
 
 
 import grails.rest.*
