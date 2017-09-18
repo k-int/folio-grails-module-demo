@@ -11,7 +11,6 @@ class UrlMappings {
         patch "/$controller/$id(.$format)?"(action:"patch")
 
         "/"(controller: 'application', action:'index')
-        "/_/tenant"(controller: 'okapi', action:'tenant')
         "500"(view: '/error')
         "404"(view: '/notFound')
     }
