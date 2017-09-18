@@ -323,9 +323,13 @@ In order to run this sample app, the following postgres config is expected (Thes
 because they are needed if you wish to run mod_user from the same configuration (You might want to). Currently, this demo does not require superuser privis, but this
 area of FOLIO feels less well defined currently.
 
-    CREATE DATABASE folio;
     CREATE USER folio WITH PASSWORD 'folio' SUPERUSER CREATEDB INHERIT LOGIN;
+
+    CREATE DATABASE folio;
     GRANT ALL PRIVILEGES ON DATABASE folio to folio;
+
+    CREATE DATABASE foliodev;
+    GRANT ALL PRIVILEGES ON DATABASE foliodev to folio;
 
 GORM Multi-Tennancy documentation can be found here: http://gorm.grails.org/latest/hibernate/manual/index.html#_schema_per_tenant
 
