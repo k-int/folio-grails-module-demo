@@ -69,11 +69,12 @@ Assuming you're starting at some/path the following commands will get you everyt
 
 # Prerequisites
 
-This demo is created using grails 3.2.9. We've found sdkman/gvm the best way to manage grails versions. You can obtian gvm from http://sdkman.io/. After downloading and installing 
+This demo is created using grails 3.3.0. We've found sdkman/gvm the best way to manage grails versions. You can obtian gvm from http://sdkman.io/. After downloading and installing 
 
-    gvm install grails 3.2.9
+    gvm install grails 3.3.0
 
-will get you the grails env you need.
+will get you the grails env you need. Different versions of grails are supported by different branches of this git project. The default branch will reflect current k-int
+target environments.
 
 Folio. This demo was created using okapi core with commit e1b1df335e5fff65fb036224907ba505f3f99cf0 from https://github.com/folio-org/okapi.git
 
