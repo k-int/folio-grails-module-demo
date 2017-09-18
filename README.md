@@ -327,6 +327,8 @@ area of FOLIO feels less well defined currently.
     CREATE USER folio WITH PASSWORD 'folio' SUPERUSER CREATEDB INHERIT LOGIN;
     GRANT ALL PRIVILEGES ON DATABASE folio to folio;
 
+GORM Multi-Tennancy documentation can be found here: http://gorm.grails.org/latest/hibernate/manual/index.html#_schema_per_tenant
+
 
 ### About multi-tenant
 
