@@ -4,6 +4,7 @@ import groovy.util.logging.Slf4j
 import javax.sql.DataSource
 import java.sql.Connection
 import java.sql.ResultSet
+import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
 
 /**
  * Resolves the schema names
@@ -19,13 +20,13 @@ class OkapiSchemaHandler implements SchemaHandler {
     final String createSchemaStatement
     final String defaultSchemaName
 
-    DefaultSchemaHandler() {
+    OkapiSchemaHandler() {
         useSchemaStatement = "SET SCHEMA %s"
         createSchemaStatement = "CREATE SCHEMA %s"
         defaultSchemaName = "PUBLIC"
     }
 
-    DefaultSchemaHandler(String useSchemaStatement, String createSchemaStatement, String defaultSchemaName) {
+    OkapiSchemaHandler(String useSchemaStatement, String createSchemaStatement, String defaultSchemaName) {
         this.useSchemaStatement = useSchemaStatement
         this.createSchemaStatement = createSchemaStatement
         this.defaultSchemaName = defaultSchemaName
