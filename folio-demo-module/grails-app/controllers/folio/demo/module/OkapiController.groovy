@@ -14,6 +14,11 @@ class OkapiController {
   def tenant() {
     println("OkapiController::tenant ${params} ${request.getHeader('X-Okapi-Tenant')}");
     def result = [:]
+
+    // Lets sort dynamic creation of this tenant
+    // HibernateDatastore datastore = ...
+    // datastore.addTenantForSchema("myNewSchema")
+
     render result as JSON
   }
 
