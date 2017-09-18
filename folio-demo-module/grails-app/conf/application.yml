@@ -1,4 +1,7 @@
 ---
+testsection:
+          message: Test Local Configuration Worked
+---
 grails:
     profile: rest-api
     codegen:
