@@ -1,3 +1,5 @@
+package okapi
+
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 
@@ -60,6 +62,8 @@ class OkapiSchemaHandler implements SchemaHandler {
         Collection<String> schemaNames = []
         Connection connection = null
         try {
+
+            // This method is not great - it will try to add all schemas, and that isn't what we want for okapi 
             connection = dataSource.getConnection()
             ResultSet schemas = connection.getMetaData().getSchemas()
             while(schemas.next()) {

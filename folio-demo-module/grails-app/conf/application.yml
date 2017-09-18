@@ -16,7 +16,7 @@ grails:
             events: false
         multiTenancy:
             mode: SCHEMA
-            tenantResolverClass: OkapiTenantResolver    # See src/main/groovy
+            tenantResolverClass: okapi.OkapiTenantResolver    # See src/main/groovy
 
 info:
     app:
@@ -94,7 +94,7 @@ environments:
             driverClassName: org.postgresql.Driver
             dialect: org.hibernate.dialect.PostgreSQLDialect
             url: jdbc:postgresql://localhost:5432/foliodev
-            schemaHandler: OkapiSchemaHandler
+            schemaHandler: okapi.OkapiSchemaHandler
     test:
         dataSource:
             dbCreate: update

@@ -1,3 +1,5 @@
+package okapi
+
 import groovy.transform.CompileStatic
 import org.grails.datastore.mapping.multitenancy.TenantResolver
 import org.grails.datastore.mapping.multitenancy.exceptions.TenantNotFoundException
