@@ -88,6 +88,7 @@ dataSource:
 environments:
     development:
         dataSource:
+            logSql: true
             dbCreate: update
             username: folio
             password: folio

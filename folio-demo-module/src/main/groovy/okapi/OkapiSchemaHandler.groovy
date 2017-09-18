@@ -13,6 +13,8 @@ import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
  *
  * @author Graeme Rocher
  * @since 6.0
+ *
+ * @See https://github.com/grails/gorm-hibernate5/blob/master/grails-datastore-gorm-hibernate5/src/main/groovy/org/grails/orm/hibernate/HibernateDatastore.java
  */
 @CompileStatic
 @Slf4j
@@ -23,9 +25,10 @@ class OkapiSchemaHandler implements SchemaHandler {
     final String defaultSchemaName
 
     OkapiSchemaHandler() {
-        useSchemaStatement = "SET SCHEMA %s"
+        // useSchemaStatement = "SET SCHEMA %s"
+        useSchemaStatement = "SET search_path TO %s,public"
         createSchemaStatement = "CREATE SCHEMA %s"
-        defaultSchemaName = "PUBLIC"
+        defaultSchemaName = "public"
     }
 
     OkapiSchemaHandler(String useSchemaStatement, String createSchemaStatement, String defaultSchemaName) {
@@ -36,15 +39,28 @@ class OkapiSchemaHandler implements SchemaHandler {
 
     @Override
     void useSchema(Connection connection, String name) {
+        log.debug("useSchema");
         String useStatement = String.format(useSchemaStatement, name)
         log.debug("Executing SQL Set Schema Statement: ${useStatement}")
-        connection
+        
+        try {
+          log.debug("Try");
+          connection
                 .createStatement()
                 .execute(useStatement)
+        }
+        catch ( Exception e ) {
+          log.error("problem trying to use schema - \"${useStatement}\"",e)
+          // Rethrow
+          throw e
+        }
+
+        log.debug("useSchema completed OK");
     }
 
     @Override
     void useDefaultSchema(Connection connection) {
+        log.debug("useDefaultSchema");
         useSchema(connection, defaultSchemaName)
     }
 
@@ -62,13 +78,14 @@ class OkapiSchemaHandler implements SchemaHandler {
         Collection<String> schemaNames = []
         Connection connection = null
         try {
-
             // This method is not great - it will try to add all schemas, and that isn't what we want for okapi 
             connection = dataSource.getConnection()
-            ResultSet schemas = connection.getMetaData().getSchemas()
-            while(schemas.next()) {
-                schemaNames.add(schemas.getString("TABLE_SCHEM"))
-            }
+        //     ResultSet schemas = connection.getMetaData().getSchemas()
+        //     while(schemas.next()) {
+        //         schemaNames.add(schemas.getString("TABLE_SCHEM"))
+        //     }
+            schemaNames.add('test1');
+            schemaNames.add('test2');
         } finally {
             try {
                 connection?.close()

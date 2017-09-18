@@ -1,6 +1,8 @@
 package folio.demo.module
 
-class FolioResource {
+import grails.gorm.MultiTenant;
+
+class FolioResource implements MultiTenant<FolioResource> {
 
   String title
   String description
