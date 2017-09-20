@@ -39,6 +39,7 @@ class OkapiTenantResolver implements TenantResolver {
             }
             throw new TenantNotFoundException("Tenant could not be resolved from HTTP Header: ${headerName}")
         }
+
         throw new TenantNotFoundException("Tenant could not be resolved outside a web request")
     }
 }

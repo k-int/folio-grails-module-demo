@@ -7,6 +7,8 @@ import javax.sql.DataSource
 import liquibase.Liquibase
 import liquibase.database.Database
 import org.grails.plugins.databasemigration.liquibase.GrailsLiquibase
+// import grails.gorm.multitenancy.*
+// @WithoutTenant
 
 
 class TenantAdminService {
@@ -16,15 +18,17 @@ class TenantAdminService {
 
   public void createTenant(String tenantId) {
 
-    def gt = GrailsTenant.findByModuleAndTenant('demo',tenantId);
-    if ( gt == null ) {
-      log.debug("Module already registered for tenant");
-      createAccountSchema(tenantId);
-      updateAccountSchema(tenantId);
-      new GrailsTenant(module:'demo', tenant:tenantId).save(flush:true, failOnError:true);
-    }
-    else {
-      log.debug("Module already registered for tenant");
+    GrailsTenant.withNewSession() {
+      def gt = GrailsTenant.findByModuleAndTenant('demo',tenantId);
+      if ( gt == null ) {
+        log.debug("register module for tenant");
+        createAccountSchema(tenantId);
+        updateAccountSchema(tenantId);
+        new GrailsTenant(module:'demo', tenant:tenantId).save(flush:true, failOnError:true);
+      }
+      else {
+        log.debug("Module already registered for tenant");
+      }
     }
   }
 

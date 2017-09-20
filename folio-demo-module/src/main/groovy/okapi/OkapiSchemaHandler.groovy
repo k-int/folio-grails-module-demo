@@ -97,14 +97,19 @@ class OkapiSchemaHandler implements SchemaHandler {
         try {
             // This method is not great - it will try to add all schemas, and that isn't what we want for okapi 
             connection = dataSource.getConnection()
-        //     ResultSet schemas = connection.getMetaData().getSchemas()
-        //     while(schemas.next()) {
-        //         schemaNames.add(schemas.getString("TABLE_SCHEM"))
-        //     }
-        //     schemaNames.add('test1');
-        //     schemaNames.add('test2');
+            log.debug("Switch schema");
+            def stmnt = connection.createStatement().execute('set schema \'public\'');
+            log.debug("List tenants");
+            // ResultSet schemas = stmnt.executeQuery('select gt_tenant from grails_module_tenant where gt_module=\'demo\'');
+            // while(schemas.next()) {
+            //   schemaNames.add(schemas.getString(1))
+            // }
+            log.debug("All done");
+                 schemaNames.add('test1');
+                 schemaNames.add('test2');
         } finally {
             try {
+                connection.createStatement().execute('set schema \'public\'')
                 connection?.close()
             } catch (Throwable e) {
                 log.debug("Error closing SQL connection: $e.message", e)
