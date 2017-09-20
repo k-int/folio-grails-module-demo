@@ -25,8 +25,8 @@ class OkapiSchemaHandler implements SchemaHandler {
     final String defaultSchemaName
 
     OkapiSchemaHandler() {
-        // useSchemaStatement = "SET SCHEMA %s"
-        useSchemaStatement = "SET search_path TO %s,public"
+        useSchemaStatement = "SET SCHEMA '%s'"
+        // useSchemaStatement = "SET search_path TO %s,public"
         createSchemaStatement = "CREATE SCHEMA %s"
         defaultSchemaName = "public"
     }
@@ -45,9 +45,23 @@ class OkapiSchemaHandler implements SchemaHandler {
         
         try {
           log.debug("Try");
-          connection
-                .createStatement()
-                .execute(useStatement)
+
+          // Gather all the schemas
+          ResultSet schemas = connection.getMetaData().getSchemas()
+          Collection<String> schemaNames = []
+          while(schemas.next()) {
+            schemaNames.add(schemas.getString("TABLE_SCHEM"))
+          }
+
+          if ( schemaNames.contains(name) ) {
+            // The assumption seems to be that this will throw an exception if the schema does not exist, but pg silently continues...
+            connection
+                  .createStatement()
+                  .execute(useStatement)
+          }
+          else {
+            throw new RuntimeException("Attempt to use schema ${name} that does not exist according to JDBC metadata");
+          }
         }
         catch ( Exception e ) {
           log.error("problem trying to use schema - \"${useStatement}\"",e)
@@ -75,6 +89,9 @@ class OkapiSchemaHandler implements SchemaHandler {
 
     @Override
     Collection<String> resolveSchemaNames(DataSource dataSource) {
+        // If this is called by HibernateDatastore.java then the next step will be for the
+        // addTenantForSchemaInternal method to be called for this db
+        log.debug("OkapiSchemaHandler::resolveSchemaNames called")
         Collection<String> schemaNames = []
         Connection connection = null
         try {
@@ -93,6 +110,7 @@ class OkapiSchemaHandler implements SchemaHandler {
                 log.debug("Error closing SQL connection: $e.message", e)
             }
         }
+        log.debug("OkapiSchemaHandler::resolveSchemaNames called - returning ${schemaNames}")
         return schemaNames
     }
 }
