@@ -8,9 +8,14 @@ class BootStrap {
 
   def grailsApplication
   def tenantAdminService
+  def dataSource
 
   def init = { servletContext ->
     log.debug("Reporting config from folio_globals.yaml: ${grailsApplication.config.testsection.message}");
+
+
+    // The datasource connection can have whatever last set schema was used left in play, so force a switch to the public schema
+    dataSource.getConnection().createStatement().execute('set schema \'public\'');
 
     log.debug("apply core migrations");
     applyCoreMigrations()
@@ -19,18 +24,13 @@ class BootStrap {
     tenantAdminService.createTenant('test1');
     tenantAdminService.createTenant('test2');
 
-    // testTenant1()
-    // testTenant2()
-  }
-
-  // @Tenant('test1')
-  def testTenant1() {
-    FolioResource.findByTitle('Brain of the Firm') ?: new FolioResource(title:'Brain of the Firm',description:'A book').save(flush:true, failOnError:true);
-  }
-
-  // @Tenant('test2')
-  def testTenant2() {
-    FolioResource.findByTitle('Platform for Change') ?: new FolioResource(title:'Platform for Change',description:'A book').save(flush:true, failOnError:true);
+    Tenants.withId('test1') {
+      FolioResource.findByTitle('Brain of the Firm') ?: new FolioResource(title:'Brain of the Firm',description:'A book').save(flush:true, failOnError:true);
+    }
+ 
+    Tenants.withId('test2') {
+      FolioResource.findByTitle('Platform for Change') ?: new FolioResource(title:'Platform for Change',description:'A book').save(flush:true, failOnError:true);
+    }
   }
 
 
