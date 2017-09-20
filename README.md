@@ -3,6 +3,17 @@
 
 This repository is a demo of how to get a spring-boot app (grails 3 in this case) working as a [FOLIO](https://github.com/folio-org) module. It's the first in a series that set out how [K-int](http://www.k-int.com) intend to build modules for the FOLIO ecosystem (as external contributors). It should be considered separate to our work as a part of the core team. This project makes some different choices, and has different constraints to, the core FOLIO effort. This is the first in a series that will explain how we expect domain modelling and other spring-boot idioms like security to operate in the FOLIO environment. Our hope is to make it extremely easy to rapidly develop FOLIO modules using the high productivity frameworks that web developers expect to leverage.
 
+## Important Note
+
+The default branch for this project has been updated to be grails_3_3_0_manual_schema_per_tenant this branch now demonstrates an approach to implementing schema-per-tenant in folio/okapi modules based on the grails ecosystem. Important points to note are:
+
+* The management of the database schema is done by liquibase database migrations. This allows the app to have one set of "Core" migrations, and separate migrations for tenants.
+* The module proposes a shared "grails_module_tenant" table which could be shared by all grails folio modules -- and stores module activations per tenant.
+* The approch taken with migrations allows very fine grained control over schemas and when they are upgraded, this is much prefered to the traditional grails approach of always comparing the schema at app startup time. With high volume tenants, this becomes very prohibitive. The approach adopted here (Deeply inspired by this SO post: https://stackoverflow.com/questions/44176219/unable-to-dynamically-provision-a-gorm-capable-data-source-in-grails-3 and massive kudos to SO user jondow)
+* the okapi tenant controller calls the tenant admin service to provision the schema and confiure tables.
+
+* I need to check the rest of this readme to bring it up to date for 3_3_0 and the schema per tenant example.
+
 There is a walkthrough of this readme [here](https://youtu.be/wf84CLgnUEA)
 # Directory structure
 
