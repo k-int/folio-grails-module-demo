@@ -13,7 +13,7 @@ class GrailsTenant {
   static mapping = {
     table 'grails_module_tenant'
     id column:'gt_id'
-    gt_module column:'gt_module'
-    gt_tenant column:'gt_tenant'
+    module column:'gt_module'
+    tenant column:'gt_tenant'
   }
 }

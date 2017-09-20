@@ -101,8 +101,8 @@ class OkapiSchemaHandler implements SchemaHandler {
         //     while(schemas.next()) {
         //         schemaNames.add(schemas.getString("TABLE_SCHEM"))
         //     }
-            schemaNames.add('test1');
-            schemaNames.add('test2');
+        //     schemaNames.add('test1');
+        //     schemaNames.add('test2');
         } finally {
             try {
                 connection?.close()

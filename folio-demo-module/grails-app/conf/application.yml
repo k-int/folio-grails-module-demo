@@ -89,7 +89,7 @@ environments:
     development:
         dataSource:
             logSql: true
-            dbCreate: update
+            dbCreate: none
             username: folio
             password: folio
             driverClassName: org.postgresql.Driver
@@ -98,7 +98,7 @@ environments:
             schemaHandler: okapi.OkapiSchemaHandler
     test:
         dataSource:
-            dbCreate: update
+            dbCreate: none
             url: jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE
     production:
         dataSource:

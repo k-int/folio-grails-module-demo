@@ -14,11 +14,11 @@ databaseChangeLog = {
                 constraints(nullable: "false")
             }
 
-            column(name: "tenant", type: "VARCHAR(255)") {
+            column(name: "gt_tenant", type: "VARCHAR(255)") {
                 constraints(nullable: "false")
             }
 
-            column(name: "module", type: "VARCHAR(255)") {
+            column(name: "gt_module", type: "VARCHAR(255)") {
                 constraints(nullable: "false")
             }
         }
