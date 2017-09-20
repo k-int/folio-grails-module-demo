@@ -347,9 +347,7 @@ GORM Multi-Tennancy documentation can be found here: http://gorm.grails.org/late
 
 ### About multi-tenant
 
-There are a number of hibernate addons that can use database level schemas to partition multi tenant apps. We don't currently include that config in this demo. May add later,
-but may not. Either way - it seems VERY sensible to include a tenant discriminator in any tables that need to be partitioned. This approach sets up a tool by which production
-engineers can decide for each install what the most appopriate partitioning method is.
+This example project now uses schema-per-tenant and database migrations
 
 ## Datasource configuration
 
@@ -385,6 +383,7 @@ Example of ../../folio_globals.yaml config with (Per env) DB settings. Because w
                 driverClassName: org.postgresql.Driver
                 dialect: org.hibernate.dialect.PostgreSQLDialect
                 url: jdbc:postgresql://localhost:5432/folio
+                schemaHandler: okapi.OkapiSchemaHandler
 
 These values should match whatever you have used in your ../../postgres-conf.json. Re running
 
@@ -394,6 +393,12 @@ These values should match whatever you have used in your ../../postgres-conf.jso
 With this config should cause an fgm_resource table to appear in the default schema of your postgres folio user. Check this out with
 
     psql -h your.pg.host -U folio
+
+Useful postgres commands
+  \dn - List schemas
+  \dt - List schemas
+  set schema 'schemaname'; - use schemaname as the default schema, don't look in public
+  set search_path schema-1,public;  - Look in schema-1 first, then in public
 
 Where your.pg.host may be localhost or wherever you run postgres. The folio password in the default setup is folio. \dt and \d fdm_resource should respond below
 
