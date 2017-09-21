@@ -468,3 +468,11 @@ Finally - call the spring-boot service via okapi pretending tobe testlib tenant:
 
     curl -i -w '\n' -X GET -H 'X-Okapi-Tenant: testlib' http://localhost:9130/hello
 
+
+
+
+* dev notes
+
+grails dbm-generate-gorm-changelog changelog.groovy
+
+Can be used on a clean database to generate a full set of migration scripts .
