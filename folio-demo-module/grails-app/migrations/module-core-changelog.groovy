@@ -6,7 +6,7 @@ databaseChangeLog = {
 
     changeSet(author: "ibbo (generated)", id: "1505910270410-3") {
         createTable(tableName: "grails_module_tenant") {
-            column(name: "gt_id", type: "BIGINT") {
+            column(name: "gt_id", type: "VARCHAR(32)") {
                 constraints(nullable: "false")
             }
 
@@ -19,6 +19,10 @@ databaseChangeLog = {
             }
 
             column(name: "gt_module", type: "VARCHAR(255)") {
+                constraints(nullable: "false")
+            }
+
+            column(name: "gt_schema_name", type: "VARCHAR(255)") {
                 constraints(nullable: "false")
             }
         }

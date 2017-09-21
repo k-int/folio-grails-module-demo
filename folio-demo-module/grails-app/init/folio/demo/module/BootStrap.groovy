@@ -24,11 +24,11 @@ class BootStrap {
     tenantAdminService.createTenant('test1');
     tenantAdminService.createTenant('test2');
 
-    Tenants.withId('test1') {
+    Tenants.withId('test1_grails_demo_module') {
       FolioResource.findByTitle('Brain of the Firm') ?: new FolioResource(title:'Brain of the Firm',description:'A book').save(flush:true, failOnError:true);
     }
  
-    Tenants.withId('test2') {
+    Tenants.withId('test2_grails_demo_module') {
       FolioResource.findByTitle('Platform for Change') ?: new FolioResource(title:'Platform for Change',description:'A book').save(flush:true, failOnError:true);
     }
   }

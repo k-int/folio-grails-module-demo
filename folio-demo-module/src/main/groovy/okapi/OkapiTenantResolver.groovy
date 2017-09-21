@@ -35,7 +35,7 @@ class OkapiTenantResolver implements TenantResolver {
             String tenantId = httpServletRequest.getHeader(headerName.toLowerCase())
 
             if ( tenantId ) {
-                return tenantId
+                return tenantId+'_grails_demo_module'
             }
             throw new TenantNotFoundException("Tenant could not be resolved from HTTP Header: ${headerName}")
         }

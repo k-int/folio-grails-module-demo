@@ -6,7 +6,7 @@ databaseChangeLog = {
 
     changeSet(author: "ibbo (generated)", id: "1505910270410-2") {
         createTable(tableName: "fdm_resource") {
-            column(name: "fdmr_id", type: "BIGINT") {
+            column(name: "fdmr_id", type: "VARCHAR(32)") {
                 constraints(nullable: "false")
             }
 

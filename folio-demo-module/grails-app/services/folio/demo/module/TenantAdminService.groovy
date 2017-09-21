@@ -22,9 +22,10 @@ class TenantAdminService {
       def gt = GrailsTenant.findByModuleAndTenant('demo',tenantId);
       if ( gt == null ) {
         log.debug("register module for tenant");
-        createAccountSchema(tenantId);
-        updateAccountSchema(tenantId);
-        new GrailsTenant(module:'demo', tenant:tenantId).save(flush:true, failOnError:true);
+        String new_schema_name = tenantId+'_grails_demo_module';
+        createAccountSchema(new_schema_name);
+        updateAccountSchema(new_schema_name);
+        new GrailsTenant(module:'demo', tenant:tenantId, schemaName:new_schema_name).save(flush:true, failOnError:true);
       }
       else {
         log.debug("Module already registered for tenant");

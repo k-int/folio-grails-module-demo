@@ -93,20 +93,24 @@ class OkapiSchemaHandler implements SchemaHandler {
         // addTenantForSchemaInternal method to be called for this db
         log.debug("OkapiSchemaHandler::resolveSchemaNames called")
         Collection<String> schemaNames = []
-        Connection connection = null
+        Connection connection = dataSource.getConnection()
         try {
-            // This method is not great - it will try to add all schemas, and that isn't what we want for okapi 
-            connection = dataSource.getConnection()
-            log.debug("Switch schema");
-            def stmnt = connection.createStatement().execute('set schema \'public\'');
-            log.debug("List tenants");
-            // ResultSet schemas = stmnt.executeQuery('select gt_tenant from grails_module_tenant where gt_module=\'demo\'');
-            // while(schemas.next()) {
-            //   schemaNames.add(schemas.getString(1))
-            // }
-            log.debug("All done");
-                 schemaNames.add('test1');
-                 schemaNames.add('test2');
+            java.sql.DatabaseMetaData db_metadata = connection.getMetaData()
+
+            if ( db_metadata.getTables(null, null, 'grails_module_tenant', null).next() != false ) {
+              // This method is not great - it will try to add all schemas, and that isn't what we want for okapi 
+              log.debug("Switch schema");
+              def stmnt = connection.createStatement().execute('set schema \'public\'');
+              log.debug("List tenants");
+              ResultSet schemas = connection.createStatement().executeQuery('select gt_schema_name from grails_module_tenant where gt_module=\'demo\'');
+              while(schemas.next()) {
+                schemaNames.add(schemas.getString(1))
+              }
+              log.debug("All done");
+            }
+            else {
+              log.warn("No grails_module_tenant detected. Assuming this is the first time this module has run, so no tenants exist yet. App setup will create the necessary artefacts");
+            }
         } finally {
             try {
                 connection.createStatement().execute('set schema \'public\'')
