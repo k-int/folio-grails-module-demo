@@ -12,3 +12,6 @@ vagrant ssh -c "pwd"
 vagrant ssh -c "ls"
 vagrant ssh -c "ls /etc/folio/deployment-descriptors/"
 vagrant ssh -c "ls /etc/folio/module-descriptors/"
+
+# We have to copy ../folio-demo-module/build/DeploymentDescriptor.json to /etc/folio/deployment-descriptors/mod-grails-demo
+# We have to copy ../folio-demo-module/build/ModuleDescriptor.json to /etc/folio/module-descriptors/mod-grails-demo
