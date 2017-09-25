@@ -1,0 +1,12 @@
+testsection:
+    message: Test Global Configuration Worked
+environments:
+    production:
+        dataSource:
+            dbCreate: none
+            username: folio_admin
+            password: folio_admin
+            driverClassName: org.postgresql.Driver
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            url: jdbc:postgresql://localhost:5432/okapi_modules
+            schemaHandler: OkapiSchemaHandler
