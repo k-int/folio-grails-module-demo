@@ -11,8 +11,4 @@ class OkapiControllerSpec extends Specification implements ControllerUnitTest<Ok
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-        true == false
-    }
 }

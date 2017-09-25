@@ -11,8 +11,4 @@ class FolioResourceSpec extends Specification implements DomainUnitTest<FolioRes
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

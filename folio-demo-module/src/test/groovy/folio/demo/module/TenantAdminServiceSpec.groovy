@@ -11,8 +11,4 @@ class TenantAdminServiceSpec extends Specification implements ServiceUnitTest<Te
     def cleanup() {
     }
 
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

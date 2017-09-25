@@ -75,3 +75,19 @@ sourceSets {
         }
     }
 }
+
+task generateDescriptors(type:Copy) << {
+  eachFile { println it.file }
+  println("Copy template okapi descriptors to build area");
+  from 'src/okapi'
+  into 'build'
+  include('*Descriptor*-template.json')
+  filteringCharset = 'UTF-8'
+  expand(project.properties)
+  rename { String fileName ->
+    println("Process ${fileName}");
+    fileName.replace('-template', '')
+  }
+}
+
+build.dependsOn generateDescriptors
