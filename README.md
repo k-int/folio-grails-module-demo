@@ -3,6 +3,8 @@
 
 This repository is a demo of how to get a spring-boot app (grails 3 in this case) working as a [FOLIO](https://github.com/folio-org) module. It's the first in a series that set out how [K-int](http://www.k-int.com) intend to build modules for the FOLIO ecosystem (as external contributors). It should be considered separate to our work as a part of the core team. This project makes some different choices, and has different constraints to, the core FOLIO effort. This is the first in a series that will explain how we expect domain modelling and other spring-boot idioms like security to operate in the FOLIO environment. Our hope is to make it extremely easy to rapidly develop FOLIO modules using the high productivity frameworks that web developers expect to leverage.
 
+The latest revision of this repo will assume you are using the FOLIO vagrant build as your baseline host environment. This README is in a state of flux whilst that transition happens.
+
 ## Important Note
 
 The default branch for this project has been updated to be grails_3_3_0_manual_schema_per_tenant this branch now demonstrates an approach to implementing schema-per-tenant in folio/okapi modules based on the grails ecosystem. Important points to note are:
@@ -15,70 +17,28 @@ The default branch for this project has been updated to be grails_3_3_0_manual_s
 * I need to check the rest of this readme to bring it up to date for 3_3_0 and the schema per tenant example.
 
 There is a walkthrough of this readme [here](https://youtu.be/wf84CLgnUEA)
-# Directory structure
 
-We're assuming you're working inside a "folio" workspace, and that you will create a new module in that folder at the same level as the checked out okapi. We're going to end
-up with a structure like the one below. Don't worry if you don't see all these files/directories at the start - this is where we will end up.
+# Directory structure - Quickstart
 
-    some/path/                           -- Maybe your home dir or dev area
-        folio/                           -- A folder for folio work
-            posgres-config.json          -- Config file needed by mod-users et al
-            folio_globals.yaml           -- A config file where we can share global 
-                                         -- config for spring-boot based apps.
-                                         -- we decided to go for something more general 
-                                         -- than just postgres-config.yaml .
-            folio-grails-module-demo/    -- Folder containing new module and descriptors
-                folio-demo-module/       -- the grails app itself
-            folio-sample-modules/        -- The defacto folio demo module
-            mod-users/                   -- the users module
-            okapi/                       -- okapi core
-            raml-module-builder/         -- the raml module builder, in case you want to play
+The old directory structure is gone, replaced with the following as taken from https://github.com/folio-org/folio-ansible/blob/master/doc/index.md
 
-Assuming you're starting at some/path the following commands will get you everything you might need. [folio-sample-modules](https://github.com/folio-org/folio-sample-modules), [mod-users](https://github.com/folio-org/mod-users) and [raml-module-builder](https://github.com/folio-org/raml-module-builder) aren't needed for this project, but they are pretty common to most FOLIO environments, so are included for completeness.
+    mkdir /home/user/folio-vagrant
+    cd /home/user/folio-vagrant
+    vagrant init folio/testing
+    vagrant up
 
-    mkdir folio
-    cd folio
-    git clone https://github.com/folio-org/okapi.git
-    git clone https://github.com/folio-org/folio-sample-modules.git
-    git clone https://github.com/folio-org/mod-users.git
-    git clone https://github.com/folio-org/raml-module-builder.git
+Check out this project somewhere else (EG /home/user/dev) , cd into folio-demo-module and run
 
-    # We're going to build the project described in this readme from the ground up, 
-    # but it can be checked out instead from here:
-    # git clone https://github.com/k-int/folio-grails-module-demo.git
+    grails prod war
 
-    # Set up spring-boot global config file
-    cat > folio_globals.yaml <<END
-    testsection:
-      message: Test Global Configuration Worked
-    # environments:
-    #     production:
-    #         dataSource:
-    #             dbCreate: update
-    #             username: folio
-    #             password: folio
-    #             driverClassName: org.postgresql.Driver
-    #             dialect: org.hibernate.dialect.PostgreSQLDialect
-    #             url: jdbc:postgresql://localhost:5432/folio
-    END
-    # Initialise postgres config file needed by mod-users
-    cat > postgres-config.json <<END
-    {
-        "user":"foilio"
-    }
-    END
-    # Set up folder containing descriptors and demo project
-    mkdir folio-grails-module-demo
-    cd folio-grails-module-demo
-    wget https://github.com/k-int/folio-grails-module-demo/raw/master/DeploymentDescriptor.json
-    wget https://github.com/k-int/folio-grails-module-demo/raw/master/ModuleDescriptor.json
-    wget https://github.com/k-int/folio-grails-module-demo/raw/master/testlib-tenant.json
-    wget https://github.com/k-int/folio-grails-module-demo/raw/master/testlib-mod-activation.json
-    wget https://github.com/k-int/folio-grails-module-demo/raw/master/setup.sh
-    echo done
+then cd ../scripts and run
+
+    ./deploy_to_vagrant.sh /home/user/folio-vagrant
+
+This will copy all the necessary files and manually deploy the Module descriptor
     
 
-# Prerequisites
+# Building this project from first principles
 
 This demo is created using grails 3.3.0. We've found sdkman/gvm the best way to manage grails versions. You can obtian gvm from http://sdkman.io/. After downloading and installing 
 
@@ -175,10 +135,11 @@ and prove that our datasource config is working as expected.
 This will generate [grails-app/domain/folio/demo/module/FolioResource.groovy and src/test/groovy/folio/demo/module/FolioResourceSpec.groovy](https://github.com/k-int/folio-grails-module-demo/blob/master/folio-demo-module/grails-app/domain/folio/demo/module/FolioResource.groovy). We will fill out FolioResource as follows
 
     package folio.demo.module
-    
-    class FolioResource {
-    
-      String tenantId
+
+    import grails.gorm.MultiTenant;
+
+    class FolioResource implements MultiTenant<FolioResource> {
+
       String title
       String description
     
@@ -188,7 +149,6 @@ This will generate [grails-app/domain/folio/demo/module/FolioResource.groovy and
       static mapping = {
         table 'fdm_resource'
         id column:'fdmr_id'
-        tenantId column:'fdmr_tenant_id'
         title column:'fdmr_title'
         description column:'fdmr_description'
       }
