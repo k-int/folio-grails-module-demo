@@ -2,6 +2,6 @@
   "srvcId": "${name}-${version}",
   "nodeId": "localhost",
   "descriptor": {
-    "exec": "java -jar ../folio-grails-module-demo/folio-demo-module/build/libs/folio-demo-module-0.1.war --server.port=%p --spring.config.location=file:../folio_globals.yaml"
+    "exec": "java -jar /home/folio/folio-demo-module.war --server.port=%p --spring.config.location=file:/home/folio/folio_globals.yaml"
   }
 }

@@ -31,6 +31,10 @@ Check out this project somewhere else (EG /home/user/dev) , cd into folio-demo-m
 
     grails prod war
 
+OR
+
+    gradle war -Penv=prod
+
 then cd ../scripts and run
 
     ./deploy_to_vagrant.sh /home/user/folio-vagrant

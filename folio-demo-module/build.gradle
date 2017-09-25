@@ -88,3 +88,4 @@ task generateDescriptors(type:Copy) {
 }
 
 build.dependsOn generateDescriptors 
+war.dependsOn generateDescriptors 
