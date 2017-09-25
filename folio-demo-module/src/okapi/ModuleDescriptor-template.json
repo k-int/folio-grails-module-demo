@@ -1,9 +1,9 @@
 {
   "id": "${name}-${version}",
-  "name": "grails-hello-world",
+  "name": "mod-grails-demo",
   "provides": [
     {
-      "id": "grails-hello-world",
+      "id": "mod-grails-demo",
       "version": "1.0",
       "handlers" : [
         {
