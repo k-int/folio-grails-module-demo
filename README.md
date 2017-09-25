@@ -203,7 +203,8 @@ config usedm we will see "Test Local Configuration Worked" or "Test Global Confi
     grails prod war
 
 Will make a ./build/libs/folio-demo-module-0.1.war and build/libs/folio-demo-module-0.1.war.original for you. The .war is an executable jar file that is intended to be deployed
-as a microservice. The .war can actually be made into an init-script using embeddedLaunchScript, tho thats not idiomatically compatible with FOLIO.
+as a microservice. The .war can actually be made into an init-script using embeddedLaunchScript, tho thats not idiomatically compatible with FOLIO. The .original is a traditional
+.war file intended to be deployed in a container. For our purposes here, we want the .war variant.
 
 ### Test the war In different environments
 
