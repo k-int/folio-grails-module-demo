@@ -1,5 +1,5 @@
 {
-  "id": "${artifactId}-${version}",
+  "id": "${name}-${version}",
   "name": "grails-hello-world",
   "provides": [
     {

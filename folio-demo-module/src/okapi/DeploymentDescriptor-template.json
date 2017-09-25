@@ -1,5 +1,5 @@
 {
-  "srvcId": "${artifactId}-${version}",
+  "srvcId": "${name}-${version}",
   "nodeId": "localhost",
   "descriptor": {
     "exec": "java -jar ../folio-grails-module-demo/folio-demo-module/build/libs/folio-demo-module-0.1.war --server.port=%p --spring.config.location=file:../folio_globals.yaml"
