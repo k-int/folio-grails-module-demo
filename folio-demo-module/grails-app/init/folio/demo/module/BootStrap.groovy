@@ -17,8 +17,8 @@ class BootStrap {
     // The datasource connection can have whatever last set schema was used left in play, so force a switch to the public schema
     dataSource.getConnection().createStatement().execute('set schema \'public\'');
 
-    log.debug("apply core migrations");
-    applyCoreMigrations()
+    // log.debug("apply core migrations");
+    // applyCoreMigrations()
 
     log.debug("Ensure test tenants are present");
     try {
@@ -53,6 +53,9 @@ class BootStrap {
   def destroy = {
   }
 
+  /**
+   * A hangover from when we used to store a DB user level table of tenants
+   */
   def applyCoreMigrations() {
     // Now try create the tables for the schema
     try {
