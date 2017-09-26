@@ -17,12 +17,14 @@ import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
 
 class TenantAdminService {
 
+  final static String SCHEMA_SUFFIX = '_grails_demo_module'
+
   def hibernateDatastore
   def dataSource
 
   public void createTenant(String tenantId) {
 
-      String new_schema_name = tenantId+'_grails_demo_module';
+      String new_schema_name = tenantId+SCHEMA_SUFFIX;
       try {
         hibernateDatastore.getDatastoreForConnection(new_schema_name)
         log.debug("Module already registered for tenant");
@@ -55,7 +57,7 @@ class TenantAdminService {
     ResultSet schemas = dataSource.getConnectio().getMetaData().getSchemas()
     while(schemas.next()) {
       String schema_name = schemas.getString("TABLE_SCHEM")
-      if ( schema_name.endsWith('_grails_demo_module') ) {
+      if ( schema_name.endsWith(SCHEMA_SUFFIX) ) {
         // It's one to update
         // Now try create the tables for the schema
         try {

@@ -20,6 +20,7 @@ import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
 @Slf4j
 class OkapiSchemaHandler implements SchemaHandler {
 
+    final static String SCHEMA_SUFFIX = '_grails_demo_module'
     final String useSchemaStatement
     final String createSchemaStatement
     final String defaultSchemaName
@@ -99,7 +100,7 @@ class OkapiSchemaHandler implements SchemaHandler {
           ResultSet schemas = connection.getMetaData().getSchemas()
           while(schemas.next()) {
             String schema_name = schemas.getString("TABLE_SCHEM")
-            if ( schema_name.endsWith('_grails_demo_module') ) {
+            if ( schema_name.endsWith(SCHEMA_SUFFIX) ) {
               schemaNames.add(schema_name)
             }
           }
