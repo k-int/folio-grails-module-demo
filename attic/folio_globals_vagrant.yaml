@@ -9,13 +9,40 @@ environments:
             driverClassName: org.postgresql.Driver
             dialect: org.hibernate.dialect.PostgreSQLDialect
             url: jdbc:postgresql://localhost:5432/okapi_modules
-            schemaHandler: OkapiSchemaHandler
+            schemaHandler: okapi.OkapiSchemaHandler
             properties:
                 jmxEnabled: true
                 initialSize: 5
-                maxActive: 50
+                maxActive: 21
+                minIdle: 6
+                maxIdle: 11
+                maxWait: 10000
+                maxAge: 600000
+                timeBetweenEvictionRunsMillis: 5000
+                minEvictableIdleTimeMillis: 60000
+                validationQuery: SELECT 1
+                validationQueryTimeout: 3
+                validationInterval: 15000
+                testOnBorrow: true
+                testWhileIdle: true
+                testOnReturn: false
+                jdbcInterceptors: ConnectionState
+                defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+    development:
+        dataSource:
+            dbCreate: none
+            username: folio_admin
+            password: folio_admin
+            driverClassName: org.postgresql.Driver
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+            url: jdbc:postgresql://localhost:5432/okapi_modules
+            schemaHandler: okapi.OkapiSchemaHandler
+            properties:
+                jmxEnabled: true
+                initialSize: 5
+                maxActive: 20
                 minIdle: 5
-                maxIdle: 25
+                maxIdle: 10
                 maxWait: 10000
                 maxAge: 600000
                 timeBetweenEvictionRunsMillis: 5000
