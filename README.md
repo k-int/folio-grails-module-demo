@@ -307,6 +307,14 @@ area of FOLIO feels less well defined currently.
     CREATE DATABASE foliodev;
     GRANT ALL PRIVILEGES ON DATABASE foliodev to folio;
 
+### This is the folio vagrant image equivalent setup
+
+    CREATE USER folio_admin WITH PASSWORD 'folio_admin' SUPERUSER CREATEDB INHERIT LOGIN;
+    CREATE DATABASE okapi_modules;
+    GRANT ALL PRIVILEGES ON DATABASE okapi_modules to folio_admin;
+
+
+
 GORM Multi-Tennancy documentation can be found here: http://gorm.grails.org/latest/hibernate/manual/index.html#_schema_per_tenant
 
 

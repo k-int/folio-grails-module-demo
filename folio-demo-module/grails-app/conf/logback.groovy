@@ -33,6 +33,7 @@ if (Environment.isDevelopmentMode() && targetDir != null) {
     logger ('com.k_int', DEBUG)
     logger ('pubskb', DEBUG)
     logger ('okapi', DEBUG)
+    logger ('folio', DEBUG)
 
     appender("FULL_STACKTRACE", FileAppender) {
         file = "${targetDir}/stacktrace.log"

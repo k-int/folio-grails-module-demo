@@ -25,7 +25,9 @@ class TenantAdminService {
         String new_schema_name = tenantId+'_grails_demo_module';
         createAccountSchema(new_schema_name);
         updateAccountSchema(new_schema_name);
+
         new GrailsTenant(module:'demo', tenant:tenantId, schemaName:new_schema_name).save(flush:true, failOnError:true);
+        hibernateDatastore.addTenantForSchema(new_schema_name)
       }
       else {
         log.debug("Module already registered for tenant");

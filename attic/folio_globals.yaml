@@ -3,7 +3,7 @@ testsection:
 environments:
     production:
         dataSource:
-            dbCreate: update
+            dbCreate: none
             username: folio
             password: folio
             driverClassName: org.postgresql.Driver

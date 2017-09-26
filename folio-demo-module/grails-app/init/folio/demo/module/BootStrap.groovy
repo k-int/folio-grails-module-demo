@@ -21,16 +21,32 @@ class BootStrap {
     applyCoreMigrations()
 
     log.debug("Ensure test tenants are present");
-    tenantAdminService.createTenant('test1');
-    tenantAdminService.createTenant('test2');
+    try {
+      tenantAdminService.createTenant('test1');
+      tenantAdminService.createTenant('test2');
 
-    Tenants.withId('test1_grails_demo_module') {
-      FolioResource.findByTitle('Brain of the Firm') ?: new FolioResource(title:'Brain of the Firm',description:'A book').save(flush:true, failOnError:true);
-    }
+      log.debug("Set up some test data");
+      Tenants.withId('test1'+'_grails_demo_module') {
+        def t = FolioResource.findByTitle('Brain of the Firm') 
+        if ( t ) {
+          log.debug("Found existing brain of the firm ${t}");
+        }
+        else {
+          log.debug("create new brain of the firm");
+          t = new FolioResource(title:'Brain of the Firm',description:'A book').save(flush:true, failOnError:true);
+        }
+        log.debug("done: ${t}");
+      }
  
-    Tenants.withId('test2_grails_demo_module') {
-      FolioResource.findByTitle('Platform for Change') ?: new FolioResource(title:'Platform for Change',description:'A book').save(flush:true, failOnError:true);
+      Tenants.withId('test2'+'_grails_demo_module') {
+        FolioResource.findByTitle('Platform for Change') ?: new FolioResource(title:'Platform for Change',description:'A book').save(flush:true, failOnError:true);
+      }
     }
+    catch ( Exception e ) {
+      e.printStackTrace()
+    }
+
+    log.debug("BootStrap::init completed");
   }
 
 
