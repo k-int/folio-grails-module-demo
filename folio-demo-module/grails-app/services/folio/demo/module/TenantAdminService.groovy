@@ -7,6 +7,10 @@ import javax.sql.DataSource
 import liquibase.Liquibase
 import liquibase.database.Database
 import org.grails.plugins.databasemigration.liquibase.GrailsLiquibase
+import java.sql.Connection
+import java.sql.ResultSet
+import org.grails.datastore.gorm.jdbc.schema.SchemaHandler
+
 // import grails.gorm.multitenancy.*
 // @WithoutTenant
 
@@ -48,6 +52,33 @@ class TenantAdminService {
     } finally {
         sql?.close()
     }
+  }
+
+  void freshenAllTenantSchemas() {
+    ResultSet schemas = dataSource.getConnectio().getMetaData().getSchemas()
+    while(schemas.next()) {
+      String schema_name = schemas.getString("TABLE_SCHEM")
+      if ( schema_name.endsWith('_grails_demo_module') ) {
+        // It's one to update
+        // Now try create the tables for the schema
+        try {
+          GrailsLiquibase gl = new GrailsLiquibase(applicationContext)
+          gl.dataSource = applicationContext.getBean("dataSource", DataSource)
+          gl.dropFirst = false
+          gl.changeLog = 'module-tenant-changelog.groovy'
+          gl.contexts = []
+          gl.labels = []
+          gl.defaultSchema = schema_name
+          gl.databaseChangeLogTableName = 'grails_demo_folio_module_tenant_changelog'
+          gl.databaseChangeLogLockTableName = 'grails_demo_folio_module_tenant_changelog_lock'
+          gl.afterPropertiesSet() // this runs the update command
+        } catch (Exception e) {
+            log.error("Exception trying to create new account schema tables for $tenantId", e)
+            throw e
+        }
+      }
+    }
+
   }
 
   void updateAccountSchema(String tenantId) {

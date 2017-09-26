@@ -27,15 +27,7 @@ class BootStrap {
 
       log.debug("Set up some test data");
       Tenants.withId('test1'+'_grails_demo_module') {
-        def t = FolioResource.findByTitle('Brain of the Firm') 
-        if ( t ) {
-          log.debug("Found existing brain of the firm ${t}");
-        }
-        else {
-          log.debug("create new brain of the firm");
-          t = new FolioResource(title:'Brain of the Firm',description:'A book').save(flush:true, failOnError:true);
-        }
-        log.debug("done: ${t}");
+        FolioResource.findByTitle('Brain of the Firm')  ?: new FolioResource(title:'Brain of the Firm',description:'A book').save(flush:true, failOnError:true)
       }
  
       Tenants.withId('test2'+'_grails_demo_module') {
@@ -54,7 +46,8 @@ class BootStrap {
   }
 
   /**
-   * A hangover from when we used to store a DB user level table of tenants
+   * A hangover from when we used to store a DB user level table of tenants. Left here as a guide for when we need
+   * to upgrade tenant scheas
    */
   def applyCoreMigrations() {
     // Now try create the tables for the schema
