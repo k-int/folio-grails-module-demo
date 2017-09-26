@@ -22,8 +22,6 @@ class TenantAdminService {
 
   public void createTenant(String tenantId) {
 
-    GrailsTenant.withNewSession() {
-
       String new_schema_name = tenantId+'_grails_demo_module';
       try {
         hibernateDatastore.getDatastoreForConnection(new_schema_name)
@@ -36,7 +34,6 @@ class TenantAdminService {
 
         hibernateDatastore.addTenantForSchema(new_schema_name)
       }
-    }
   }
 
   void createAccountSchema(String tenantId) {
