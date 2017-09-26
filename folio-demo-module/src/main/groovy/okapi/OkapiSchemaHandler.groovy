@@ -97,6 +97,8 @@ class OkapiSchemaHandler implements SchemaHandler {
         Connection connection = dataSource.getConnection()
         try {
 
+          // Iterate through all schemas, ignore any that don't end SCHEMA_SUFFIX, add those that do to the result.
+          // This may be the place to run migrations, or it may be better to do that in bootstrap.
           ResultSet schemas = connection.getMetaData().getSchemas()
           while(schemas.next()) {
             String schema_name = schemas.getString("TABLE_SCHEM")
@@ -104,23 +106,6 @@ class OkapiSchemaHandler implements SchemaHandler {
               schemaNames.add(schema_name)
             }
           }
-
-          // java.sql.DatabaseMetaData db_metadata = connection.getMetaData()
-
-          // if ( db_metadata.getTables(null, null, 'grails_module_tenant', null).next() != false ) {
-          // This method is not great - it will try to add all schemas, and that isn't what we want for okapi 
-          //   log.debug("Switch schema");
-          //   def stmnt = connection.createStatement().execute('set schema \'public\'');
-          //   log.debug("List tenants");
-          //   ResultSet schemas = connection.createStatement().executeQuery('select gt_schema_name from grails_module_tenant where gt_module=\'demo\'');
-          //   while(schemas.next()) {
-          //     schemaNames.add(schemas.getString(1))
-          //   }
-          //   log.debug("All done");
-          // }
-          // else {
-          //   log.warn("No grails_module_tenant detected. Assuming this is the first time this module has run, so no tenants exist yet. App setup will create the necessary artefacts");
-          // }
         } finally {
             try {
                 connection.createStatement().execute('set schema \'public\'')
