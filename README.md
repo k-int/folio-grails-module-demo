@@ -10,7 +10,7 @@ The latest revision of this repo will assume you are using the FOLIO vagrant bui
 The default branch for this project has been updated to be grails_3_3_0_manual_schema_per_tenant this branch now demonstrates an approach to implementing schema-per-tenant in folio/okapi modules based on the grails ecosystem. Important points to note are:
 
 * The management of the database schema is done by liquibase database migrations. This allows the app to have one set of "Core" migrations, and separate migrations for tenants.
-* The dmeo module no longer uses a shared "grails_module_tenant" but instead uses database metadata to enumerate the tenant/module instances
+* The demo module no longer uses a shared "grails_module_tenant" but instead uses database metadata to enumerate the tenant/module instances
 * The approch taken with migrations allows very fine grained control over schemas and when they are upgraded, this is much prefered to the traditional grails approach of always comparing the schema at app startup time. With high volume tenants, this becomes very prohibitive. The approach adopted here (Deeply inspired by this SO post: https://stackoverflow.com/questions/44176219/unable-to-dynamically-provision-a-gorm-capable-data-source-in-grails-3 and massive kudos to SO user jondow)
 * the okapi tenant controller calls the tenant admin service to provision the schema and confiure tables.
 
@@ -203,8 +203,10 @@ config usedm we will see "Test Local Configuration Worked" or "Test Global Confi
 
 # Multi Tenant Specials
 
-See https://github.com/k-int/folio-grails-module-demo/blob/grails_3_3_0_manual_schema_per_tenant/folio-demo-module/src/main/groovy/okapi/OkapiSchemaHandler.groovy and https://github.com/k-int/folio-grails-module-demo/blob/grails_3_3_0_manual_schema_per_tenant/folio-demo-module/src/main/groovy/okapi/OkapiTenantResolver.groovy 
-also note the special config in https://github.com/k-int/folio-grails-module-demo/blob/grails_3_3_0_manual_schema_per_tenant/folio-demo-module/grails-app/conf/application.yml (tenantResolverClass and schemaHandler)
+See
+* https://github.com/k-int/folio-grails-module-demo/blob/grails_3_3_0_manual_schema_per_tenant/folio-demo-module/src/main/groovy/okapi/OkapiSchemaHandler.groovy
+* https://github.com/k-int/folio-grails-module-demo/blob/grails_3_3_0_manual_schema_per_tenant/folio-demo-module/src/main/groovy/okapi/OkapiTenantResolver.groovy 
+* also note the special config in https://github.com/k-int/folio-grails-module-demo/blob/grails_3_3_0_manual_schema_per_tenant/folio-demo-module/grails-app/conf/application.yml (tenantResolverClass and schemaHandler)
 
 
 ## Build the prod war
@@ -282,7 +284,7 @@ Sample deployment/module descriptors are provided which assume a foler layout as
 #### Deployment Descriptor
 
 Things to note: --server.port= is the spring boot way to specify a port number. --spring-config-location allows us to specify a config file which will override anything
-set in conf/application.yml. We use this to set the FOLIO-wide postgres connection we wish to use.
+set in conf/application.yml. We use this to set the FOLIO-wide postgres connection we wish to use. The file will look like this::
 
     {
       "srvcId": "grails-helloworld-module",
@@ -293,6 +295,7 @@ set in conf/application.yml. We use this to set the FOLIO-wide postgres connecti
     }
 
 
+But in practice, we generate the DeploymentDescriptor and the ModuleDescriptor from the build.gradle file by processing the template files in src/okapi/*.template
 
 ## About databases
 
