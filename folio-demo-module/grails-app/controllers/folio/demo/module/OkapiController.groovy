@@ -29,7 +29,7 @@ class OkapiController {
       switch ( request.method ) {
         case 'GET':
         case 'POST':
-          tenantAdminService.createTenant();
+          tenantAdminService.createTenant(tenant_id);
           break;
         case 'DELETE':
           log.debug("Request to destroy tenant -- hanging fire here");
