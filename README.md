@@ -294,6 +294,23 @@ set in conf/application.yml. We use this to set the FOLIO-wide postgres connecti
       }
     }
 
+N.B. Also that spring boot properties can be overridden on the command-line with --property.name=value so --dataSource.username=alternate should allow you to override the datasource username
+
+#### Deployment Descriptor - with IDE.
+
+The okapi guide at https://github.com/folio-org/okapi/blob/master/doc/guide.md says
+
+    It is also possible to refer to an already-launched process (maybe running in your development IDE), by POSTing a DeploymentDescriptor to /_/discovery, with no nodeId and no LaunchDescriptor, but with the URL where the module is running.
+
+So, deploying the module descriptor, using "grails run-app" and then posting the following deployment descriptor should get our module working with debugging support.
+
+    {
+      "srvcId": "grails-helloworld-module",
+      "descriptor": {
+        "uri": "http://localhost:8080/"
+      }
+    }
+
 
 But in practice, we generate the DeploymentDescriptor and the ModuleDescriptor from the build.gradle file by processing the template files in src/okapi/*.template
 
